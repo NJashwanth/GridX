@@ -10,7 +10,9 @@ class SplashPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
-      Future<void>.microtask(() => ref.read(splashViewModelProvider).completeSplash());
+      Future<void>.microtask(
+        () => ref.read(splashViewModelProvider).completeSplash(),
+      );
       return null;
     }, const []);
 

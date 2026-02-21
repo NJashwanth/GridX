@@ -13,7 +13,8 @@ void main() {
     await tester.pump(const Duration(seconds: 2));
     await tester.pumpAndSettle();
 
-    expect(find.text('Welcome to GridX'), findsOneWidget);
-    expect(find.text('Play Game'), findsOneWidget);
+    expect(find.text('2048'), findsOneWidget);
+    expect(find.text('Score'), findsOneWidget);
+    expect(find.text('New Game'), findsOneWidget);
   });
 }
