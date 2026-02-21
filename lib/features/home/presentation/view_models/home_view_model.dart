@@ -55,6 +55,8 @@ class HomeGameNotifier extends StateNotifier<HomeGameState> {
       score: 0,
       hasWon: false,
       isGameOver: false,
+      moveCount: state.moveCount + 1,
+      clearLastMoveDirection: true,
     );
   }
 
@@ -90,6 +92,8 @@ class HomeGameNotifier extends StateNotifier<HomeGameState> {
       bestScore: max(state.bestScore, score),
       hasWon: hasWon,
       isGameOver: isGameOver,
+      moveCount: state.moveCount + 1,
+      lastMoveDirection: direction,
     );
   }
 

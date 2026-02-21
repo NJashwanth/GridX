@@ -7,6 +7,8 @@ class HomeGameState {
     required this.bestScore,
     required this.hasWon,
     required this.isGameOver,
+    required this.moveCount,
+    required this.lastMoveDirection,
   });
 
   final List<int> board;
@@ -14,6 +16,8 @@ class HomeGameState {
   final int bestScore;
   final bool hasWon;
   final bool isGameOver;
+  final int moveCount;
+  final MoveDirection? lastMoveDirection;
 
   factory HomeGameState.initial() {
     return const HomeGameState(
@@ -22,6 +26,8 @@ class HomeGameState {
       bestScore: 0,
       hasWon: false,
       isGameOver: false,
+      moveCount: 0,
+      lastMoveDirection: null,
     );
   }
 
@@ -31,6 +37,9 @@ class HomeGameState {
     int? bestScore,
     bool? hasWon,
     bool? isGameOver,
+    int? moveCount,
+    MoveDirection? lastMoveDirection,
+    bool clearLastMoveDirection = false,
   }) {
     return HomeGameState(
       board: board ?? this.board,
@@ -38,6 +47,10 @@ class HomeGameState {
       bestScore: bestScore ?? this.bestScore,
       hasWon: hasWon ?? this.hasWon,
       isGameOver: isGameOver ?? this.isGameOver,
+      moveCount: moveCount ?? this.moveCount,
+      lastMoveDirection: clearLastMoveDirection
+          ? null
+          : (lastMoveDirection ?? this.lastMoveDirection),
     );
   }
 }

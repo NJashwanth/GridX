@@ -117,7 +117,24 @@ class HomePage extends ConsumerWidget {
                             );
                           }
                         },
-                        child: _BoardGrid(board: game.board),
+                        child: TweenAnimationBuilder<Offset>(
+                          key: ValueKey(game.moveCount),
+                          tween: Tween<Offset>(
+                            begin: _boardAnimationOffset(
+                              game.lastMoveDirection,
+                            ),
+                            end: Offset.zero,
+                          ),
+                          duration: const Duration(milliseconds: 140),
+                          curve: Curves.easeOutCubic,
+                          child: _BoardGrid(board: game.board),
+                          builder: (context, offset, child) {
+                            return Transform.translate(
+                              offset: Offset(offset.dx * 18, offset.dy * 18),
+                              child: child,
+                            );
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: 14),
@@ -136,6 +153,21 @@ class HomePage extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+Offset _boardAnimationOffset(MoveDirection? direction) {
+  switch (direction) {
+    case MoveDirection.left:
+      return const Offset(0.18, 0);
+    case MoveDirection.right:
+      return const Offset(-0.18, 0);
+    case MoveDirection.up:
+      return const Offset(0, 0.18);
+    case MoveDirection.down:
+      return const Offset(0, -0.18);
+    case null:
+      return Offset.zero;
   }
 }
 
@@ -249,19 +281,30 @@ class _Tile extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final background = _tileColor(value, scheme);
 
-    return DecoratedBox(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 120),
+      curve: Curves.easeOut,
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
-        child: Text(
-          value == 0 ? '' : '$value',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w700,
-            color: value == 0
-                ? scheme.onSurfaceVariant
-                : scheme.onPrimaryContainer,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 120),
+          switchInCurve: Curves.easeOutBack,
+          switchOutCurve: Curves.easeIn,
+          transitionBuilder: (child, animation) {
+            return ScaleTransition(scale: animation, child: child);
+          },
+          child: Text(
+            value == 0 ? '' : '$value',
+            key: ValueKey(value),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: value == 0
+                  ? scheme.onSurfaceVariant
+                  : scheme.onPrimaryContainer,
+            ),
           ),
         ),
       ),
