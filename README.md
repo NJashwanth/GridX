@@ -1,6 +1,6 @@
-# flutter_2048_game
+# GridX
 
-A new Flutter project.
+GridX Flutter game project.
 
 ## Getting Started
 

@@ -1,11 +1,11 @@
 {
-    "name": "Flutter 2048 Game",
-    "short_name": "2048",
+    "name": "GridX",
+    "short_name": "GridX",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A Flutter 2048 game.",
+    "description": "GridX Flutter game.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
