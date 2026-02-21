@@ -11,3 +11,24 @@ Run the app locally:
 3. Run `flutter run`
 
 For Flutter docs, see [docs.flutter.dev](https://docs.flutter.dev/).
+
+## Screenshots
+
+Add your app screenshots to `assets/screenshots/` using these names:
+
+- `splash.png`
+- `home.png`
+- `gameplay.png`
+
+<table>
+	<tr>
+		<td align="center"><b>Splash</b></td>
+		<td align="center"><b>Home</b></td>
+		<td align="center"><b>Gameplay</b></td>
+	</tr>
+	<tr>
+		<td><img src="assets/screenshots/splash.png" alt="Splash screen" width="240"/></td>
+		<td><img src="assets/screenshots/home.png" alt="Home screen" width="240"/></td>
+		<td><img src="assets/screenshots/gameplay.png" alt="Gameplay screen" width="240"/></td>
+	</tr>
+</table>
