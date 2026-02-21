@@ -16,25 +16,56 @@ class SplashPage extends HookConsumerWidget {
       return null;
     }, const []);
 
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'GridX',
-              style: Theme.of(
-                context,
-              ).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '2048 inspired game',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 28),
-            const CircularProgressIndicator(),
-          ],
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [scheme.surfaceContainerLowest, scheme.surfaceContainer],
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 84,
+                height: 84,
+                decoration: BoxDecoration(
+                  color: scheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Icon(
+                  Icons.grid_4x4_rounded,
+                  size: 42,
+                  color: scheme.onPrimaryContainer,
+                ),
+              ),
+              const SizedBox(height: 18),
+              Text(
+                'GridX',
+                style: Theme.of(
+                  context,
+                ).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w800),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '2048 inspired game',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 28),
+              SizedBox(
+                width: 28,
+                height: 28,
+                child: const CircularProgressIndicator(strokeWidth: 2.8),
+              ),
+            ],
+          ),
         ),
       ),
     );

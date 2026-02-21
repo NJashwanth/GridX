@@ -35,117 +35,140 @@ class HomePage extends ConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 500),
-              child: Focus(
-                autofocus: true,
-                onKeyEvent: (node, event) {
-                  if (event is! KeyDownEvent) {
-                    return KeyEventResult.ignored;
-                  }
-                  switch (event.logicalKey) {
-                    case LogicalKeyboardKey.arrowUp:
-                      viewModel.move(MoveDirection.up);
-                      return KeyEventResult.handled;
-                    case LogicalKeyboardKey.arrowDown:
-                      viewModel.move(MoveDirection.down);
-                      return KeyEventResult.handled;
-                    case LogicalKeyboardKey.arrowLeft:
-                      viewModel.move(MoveDirection.left);
-                      return KeyEventResult.handled;
-                    case LogicalKeyboardKey.arrowRight:
-                      viewModel.move(MoveDirection.right);
-                      return KeyEventResult.handled;
-                  }
-                  return KeyEventResult.ignored;
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      '2048',
-                      style: Theme.of(context).textTheme.displaySmall,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'Swipe on the board or use arrow keys',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _ScoreCard(label: 'Score', value: game.score),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _ScoreCard(
-                            label: 'Best',
-                            value: game.bestScore,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 14),
-                    if (game.hasWon || game.isGameOver)
-                      _StatusBanner(
-                        hasWon: game.hasWon,
-                        isGameOver: game.isGameOver,
-                        onNewGame: viewModel.resetGame,
-                      ),
-                    if (game.hasWon || game.isGameOver)
-                      const SizedBox(height: 14),
-                    Expanded(
-                      child: GestureDetector(
-                        onPanEnd: (details) {
-                          final velocity = details.velocity.pixelsPerSecond;
-                          final dx = velocity.dx;
-                          final dy = velocity.dy;
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Theme.of(context).colorScheme.surfaceContainerLowest,
+                Theme.of(context).colorScheme.surfaceContainerLow,
+              ],
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: Focus(
+                  autofocus: true,
+                  onKeyEvent: (node, event) {
+                    if (event is! KeyDownEvent) {
+                      return KeyEventResult.ignored;
+                    }
 
-                          if (dx.abs() > dy.abs()) {
-                            viewModel.move(
-                              dx > 0 ? MoveDirection.right : MoveDirection.left,
-                            );
-                          } else {
-                            viewModel.move(
-                              dy > 0 ? MoveDirection.down : MoveDirection.up,
-                            );
-                          }
-                        },
-                        child: TweenAnimationBuilder<Offset>(
-                          key: ValueKey(game.moveCount),
-                          tween: Tween<Offset>(
-                            begin: _boardAnimationOffset(
-                              game.lastMoveDirection,
+                    switch (event.logicalKey) {
+                      case LogicalKeyboardKey.arrowUp:
+                        viewModel.move(MoveDirection.up);
+                        return KeyEventResult.handled;
+                      case LogicalKeyboardKey.arrowDown:
+                        viewModel.move(MoveDirection.down);
+                        return KeyEventResult.handled;
+                      case LogicalKeyboardKey.arrowLeft:
+                        viewModel.move(MoveDirection.left);
+                        return KeyEventResult.handled;
+                      case LogicalKeyboardKey.arrowRight:
+                        viewModel.move(MoveDirection.right);
+                        return KeyEventResult.handled;
+                    }
+
+                    return KeyEventResult.ignored;
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        '2048',
+                        style: Theme.of(context).textTheme.displaySmall
+                            ?.copyWith(fontWeight: FontWeight.w800),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Swipe on the board or use arrow keys',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 18),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _ScoreCard(
+                              label: 'Score',
+                              value: game.score,
                             ),
-                            end: Offset.zero,
                           ),
-                          duration: const Duration(milliseconds: 140),
-                          curve: Curves.easeOutCubic,
-                          child: _BoardGrid(board: game.board),
-                          builder: (context, offset, child) {
-                            return Transform.translate(
-                              offset: Offset(offset.dx * 18, offset.dy * 18),
-                              child: child,
-                            );
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _ScoreCard(
+                              label: 'Best',
+                              value: game.bestScore,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 14),
+                      if (game.hasWon || game.isGameOver)
+                        _StatusBanner(
+                          hasWon: game.hasWon,
+                          isGameOver: game.isGameOver,
+                          onNewGame: viewModel.resetGame,
+                        ),
+                      if (game.hasWon || game.isGameOver)
+                        const SizedBox(height: 14),
+                      Expanded(
+                        child: GestureDetector(
+                          onPanEnd: (details) {
+                            final velocity = details.velocity.pixelsPerSecond;
+                            final dx = velocity.dx;
+                            final dy = velocity.dy;
+
+                            if (dx.abs() > dy.abs()) {
+                              viewModel.move(
+                                dx > 0
+                                    ? MoveDirection.right
+                                    : MoveDirection.left,
+                              );
+                            } else {
+                              viewModel.move(
+                                dy > 0 ? MoveDirection.down : MoveDirection.up,
+                              );
+                            }
                           },
+                          child: TweenAnimationBuilder<Offset>(
+                            key: ValueKey(game.moveCount),
+                            tween: Tween<Offset>(
+                              begin: _boardAnimationOffset(
+                                game.lastMoveDirection,
+                              ),
+                              end: Offset.zero,
+                            ),
+                            duration: const Duration(milliseconds: 140),
+                            curve: Curves.easeOutCubic,
+                            child: _BoardGrid(board: game.board),
+                            builder: (context, offset, child) {
+                              return Transform.translate(
+                                offset: Offset(offset.dx * 18, offset.dy * 18),
+                                child: child,
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 14),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: viewModel.resetGame,
-                        child: const Text('New Game'),
+                      const SizedBox(height: 14),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: viewModel.resetGame,
+                          icon: const Icon(Icons.autorenew_rounded),
+                          label: const Text('New Game'),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -179,12 +202,19 @@ class _ScoreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
         child: Column(
           children: [
-            Text(label, style: Theme.of(context).textTheme.labelLarge),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: scheme.onSurfaceVariant,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             const SizedBox(height: 2),
             Text(
               '$value',
@@ -249,6 +279,7 @@ class _BoardGrid extends StatelessWidget {
       decoration: BoxDecoration(
         color: scheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: scheme.outlineVariant),
       ),
       child: Column(
         children: List.generate(4, (row) {
