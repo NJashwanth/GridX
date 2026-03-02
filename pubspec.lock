@@ -123,6 +123,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  lifecycle_logger:
+    dependency: "direct main"
+    description:
+      name: lifecycle_logger
+      sha256: bec249c6de199ebec3839fc2e0e47ae6cd579544f1ac9f36948fe4b221ba174b
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   lints:
     dependency: transitive
     description:
