@@ -39,11 +39,15 @@ class HomeViewModel {
 }
 
 class HomeGameNotifier extends StateNotifier<HomeGameState> {
-  HomeGameNotifier() : super(HomeGameState.initial()) {
-    resetGame();
+  HomeGameNotifier({Random? random, HomeGameState? initialState})
+    : _random = random ?? Random(),
+      super(initialState ?? HomeGameState.initial()) {
+    if (initialState == null) {
+      resetGame();
+    }
   }
 
-  final Random _random = Random();
+  final Random _random;
 
   void resetGame() {
     var board = List<int>.filled(16, 0);
